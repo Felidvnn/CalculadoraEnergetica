@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escoger opción a calcular</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <header>
+        <h1>Escoger opción a calcular</h1>
+        <img src="udp.png" alt="Logo UDP" class="panel-image">
+    </header>
+
+    <div class="container">
+        <!-- Menú de opciones -->
+        <div class="menu">
+            <button onclick="mostrarCalculadora('roi')">Calcular ROI</button>
+            <button onclick="mostrarCalculadora('rent')">Calcular Ahorro</button>
+        </div>
+
+        <!-- Sección de cálculo de ROI -->
+        <div id="formROI" class="form-section">
+            <h2>Introduce los datos para calcular el ROI:</h2>
+            <form id="roiForm">
+                <!-- Sección de batería -->
+                <div class="form-section" id="formBateria">
+                    <h2>Selecciona el modelo de batería:</h2>
+                    <h4>Aquí debes seleccionar el modelo en la lista y posteriormente indicar el monto de compra de dicha batería.</h4>
+                    <form id="bateriaForm">
+                        <div id="bateriasContainer">
+                            <!-- Aquí se agregarán las baterías dinámicamente -->
+                            <div class="bateria-item">
+                                <label for="modeloBateria">Modelo de Batería:</label>
+                                <select class="modeloBateria" required>
+                                    <option value="">Selecciona un modelo</option>
+                                    <option value="modelo1">Modelo 1</option>
+                                    <option value="modelo2">Modelo 2</option>
+                                    <option value="modelo3">Modelo 3</option>
+                                </select>
+                                <div class="bateria-inputs">
+                                    <label for="valorCompra">Valor de compra de la batería($):</label>
+                                    <div class="input-container">
+                                        <span class="currency">$</span>
+                                        <input type="number" class="valorCompra" step="1" required>
+                                    </div>
+                                </div>
+                                <div class="bateria-select">
+                                    <label for="opcionBateria">Selecciona una opción:</label>
+                                    <select class="opcionBateria" required>
+                                        <option value="">Elige una opción</option>
+                                        <option value="capacidad_remanente_porcentaje">Capacidad remanente (%)</option>
+                                        <option value="capacidad_remanente_kwh">Capacidad remanente (kWh)</option>
+                                        <option value="anos_uso">Años de uso</option>
+                                    </select>
+                                </div>
+                                <div class="bateria-valor">
+                                    <label for="valorSeleccionado">Valor:</label>
+                                    <input type="number" class="valorSeleccionado" step="0.01" required>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" id="addBateriaButton">Agregar batería</button>
+                    </form>
+                </div>
+            
+                <!-- Nueva sección: Datos de generación del sistema -->
+                <div class="form-section2">
+                    <h2>Capacidad de generación del sistema</h2>
+                    <h4>Debes indicarnos la capacidad de generación mensual en kWh de tu sistema, si lo deseas puedes indicar el valor mes a mes.</h4>
+                    <label for="tipoGeneracion">Selecciona el tipo de generación:</label>
+                    <select id="tipoGeneracion" onchange="toggleGeneracion(this.value)" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="promedio">Generación promedio mensual (kWh)</option>
+                        <option value="avanzada">Avanzada</option>
+                    </select>
+            
+                    <!-- Generación promedio mensual -->
+                    <div id="generacionPromedio" class="generacion-opcion" style="display: none;">
+                        <label for="generacionMensual">Generación promedio mensual (kWh):</label>
+                        <input type="number" id="generacionMensual" step="0.01">
+                    </div>
+            
+                    <!-- Generación avanzada -->
+                    <div id="generacionAvanzada" class="generacion-opcion" style="display: none;">
+                        <h3>Generación mensual por cada mes:</h3>
+                        <div class="meses-container">
+                            <label for="enero">Enero:</label>
+                            <input type="number" id="enero" step="0.01">
+                            <label for="febrero">Febrero:</label>
+                            <input type="number" id="febrero" step="0.01">
+                            <label for="marzo">Marzo:</label>
+                            <input type="number" id="marzo" step="0.01">
+                            <label for="abril">Abril:</label>
+                            <input type="number" id="abril" step="0.01">
+                            <label for="mayo">Mayo:</label>
+                            <input type="number" id="mayo" step="0.01">
+                            <label for="junio">Junio:</label>
+                            <input type="number" id="junio" step="0.01">
+                            <label for="julio">Julio:</label>
+                            <input type="number" id="julio" step="0.01">
+                            <label for="agosto">Agosto:</label>
+                            <input type="number" id="agosto" step="0.01">
+                            <label for="septiembre">Septiembre:</label>
+                            <input type="number" id="septiembre" step="0.01">
+                            <label for="octubre">Octubre:</label>
+                            <input type="number" id="octubre" step="0.01">
+                            <label for="noviembre">Noviembre:</label>
+                            <input type="number" id="noviembre" step="0.01">
+                            <label for="diciembre">Diciembre:</label>
+                            <input type="number" id="diciembre" step="0.01">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section2" id="formConsumoEnergetico">
+                    <h2>Consumo Energético</h2>
+                    <label for="tipoConsumo">Selecciona el tipo de consumo:</label>
+                    <select id="tipoConsumo" onchange="mostrarConsumo(this.value)" required>
+                        <option value="">Seleccione una opción</option>
+                        <option value="estimado">Estimado mensual</option>
+                        <option value="promedio">Consumo promedio mensual</option>
+                        <option value="avanzado">Avanzado</option>
+                    </select>
+                
+                    <!-- Opción 1: Estimado mensual -->
+                    <div id="estimadoMensual" class="consumo-opcion" style="display: none;">
+                        <label for="comuna">Comuna:</label>
+                        <select id="comuna" required>
+                            <option value="">Seleccione una comuna</option>
+                            <option value="comuna1">Comuna 1</option>
+                            <option value="comuna2">Comuna 2</option>
+                            <option value="comuna3">Comuna 3</option>
+                            <!-- Añadir más opciones según sea necesario -->
+                        </select>
+                
+                        <label for="kWhMes">kWh/mes:</label>
+                        <input type="number" id="kWhMes" step="0.01" required>
+                
+                        <label for="tarifa">Tarifa ($/kWh):</label>
+                        <input type="number" id="tarifa" step="0.01" required>
+                
+                        <label for="cantidadHogares">Cantidad de hogares:</label>
+                        <input type="number" id="cantidadHogares" required>
+                    </div>
+                
+                    <!-- Opción 2: Consumo promedio mensual -->
+                    <div id="consumoPromedioMensual" class="consumo-opcion" style="display: none;">
+                        <label for="consumoPromedio">Consumo promedio mensual (kWh):</label>
+                        <input type="number" id="consumoPromedio" step="0.01" required>
+                
+                        <label for="tarifaPromedio">Tarifa ($/kWh):</label>
+                        <input type="number" id="tarifaPromedio" step="0.01" required>
+                    </div>
+                
+                    <!-- Opción 3: Avanzado -->
+                    <div id="consumoAvanzado" class="consumo-opcion" style="display: none;">
+                        <h3>Consumo kWh mensual con su respectivo precio</h3>
+                        <table class="consumo-matriz">
+                            <thead>
+                                <tr>
+                                    <th>Mes</th>
+                                    <th>kWh/mes</th>
+                                    <th>Tarifa ($/kWh)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Enero</td>
+                                    <td><input type="number" id="eneroConsumo" step="0.01" placeholder="kWh/mes"></td>
+                                    <td><input type="number" id="eneroPrecio" step="0.01" placeholder="Tarifa"></td>
+                                </tr>
+                                <tr>
+                                    <td>Febrero</td>
+                                    <td><input type="number" id="febreroConsumo" step="0.01" placeholder="kWh/mes"></td>
+                                    <td><input type="number" id="febreroPrecio" step="0.01" placeholder="Tarifa"></td>
+                                </tr>
+                                <tr>
+                                    <td>Marzo</td>
+                                    <td><input type="number" id="marzoConsumo" step="0.01" placeholder="kWh/mes"></td>
+                                    <td><input type="number" id="marzoPrecio" step="0.01" placeholder="Tarifa"></td>
+                                </tr>
+                                <tr>
+                                    <td>Abril</td>
+                                    <td><input type="number" id="abrilConsumo" step="0.01" placeholder="kWh/mes"></td>
+                                    <td><input type="number" id="abrilPrecio" step="0.01" placeholder="Tarifa"></td>
+                                </tr>
+                                <tr>
+                                    <td>Mayo</td>
+                                    <td><input type="number" id="mayoConsumo" step="0.01" placeholder="kWh/mes"></td>
+                                    <td><input type="number" id="mayoPrecio" step="0.01" placeholder="Tarifa"></td>
+                                </tr>
+                                <tr>
+                                    <td>Junio</td>
+                                    <td><input type="number" id="junioConsumo" step="0.01" placeholder="kWh/mes"></td>
+                                    <td><input type="number" id="junioPrecio" step="0.01" placeholder="Tarifa"></td>
+                                </tr>
+                                <tr>
+                                    <td>Julio</td>
+                                    <td><input type="number" id="julioConsumo" step="0.01" placeholder="kWh/mes"></td>
+                                    <td><input type="number" id="julioPrecio" step="0.01" placeholder="Tarifa"></td>
+                                </tr>
+                                <tr>
+                                    <td>Agosto</td>
+                                    <td><input type="number" id="agostoConsumo" step="0.01" placeholder="kWh/mes"></td>
+                                    <td><input type="number" id="agostoPrecio" step="0.01" placeholder="Tarifa"></td>
+                                </tr>
+                                <tr>
+                                    <td>Septiembre</td>
+                                    <td><input type="number" id="septiembreConsumo" step="0.01" placeholder="kWh/mes"></td>
+                                    <td><input type="number" id="septiembrePrecio" step="0.01" placeholder="Tarifa"></td>
+                                </tr>
+                                <tr>
+                                    <td>Octubre</td>
+                                    <td><input type="number" id="octubreConsumo" step="0.01" placeholder="kWh/mes"></td>
+                                    <td><input type="number" id="octubrePrecio" step="0.01" placeholder="Tarifa"></td>
+                                </tr>
+                                <tr>
+                                    <td>Noviembre</td>
+                                    <td><input type="number" id="noviembreConsumo" step="0.01" placeholder="kWh/mes"></td>
+                                    <td><input type="number" id="noviembrePrecio" step="0.01" placeholder="Tarifa"></td>
+                                </tr>
+                                <tr>
+                                    <td>Diciembre</td>
+                                    <td><input type="number" id="diciembreConsumo" step="0.01" placeholder="kWh/mes"></td>
+                                    <td><input type="number" id="diciembrePrecio" step="0.01" placeholder="Tarifa"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            
+                
+                <button type="button" onclick="mostrarROI()">Calcular ROI</button>
+            </form>
+            
+
+            <div id="resultado"></div>
+        </div>
+
+        
+        <!-- Sección para "calcular ahorro" aquí abajo -->
+        <div id="formRent" class="form-section">
+            <h2>Introduce los datos para calcular el ahorro:</h2>
+            <form id="rentForm">
+                <label for="capacidad">Capacidad máxima sistema de baterías (kWh):</label>
+                <input type="number" id="capacidad" step="1" required>
+
+                <label for="consumo2">Consumo eléctrico actual cliente (kWh):</label>
+                <input type="number" id="consumo2" required>
+
+                <label for="comuna">Comuna:</label>
+                <input type="number" id="comuna" required>
+
+                <label for="generacion">Generación renovable (kW):</label>
+                <input type="number" id="generacion" step="0.01" required>
+
+                <button type="button" onclick="mostrarAhorro()">Calcular Ahorro</button>
+            </form>
+
+            <div id="resultado2"></div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Calculadora de ROI y Ahorro - Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

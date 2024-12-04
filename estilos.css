@@ -1,0 +1,277 @@
+/* Estilos generales del cuerpo */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eaf1e1; /* Fondo suave verde claro */
+    color: #2d6a4f; /* Texto verde oscuro */
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos del encabezado */
+header {
+    background-color: #4CAF50; /* Verde fuerte para el encabezado */
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+}
+
+/* Estilo del título */
+h1 {
+    font-size: 36px;
+}
+
+/* Contenedor principal */
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+}
+
+/* Estilos del menú de opciones */
+.menu {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Botones del menú */
+.menu button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.menu button:hover {
+    background-color: #45a049;
+}
+
+/* Sección de formulario */
+.form-section {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none; /* Ocultar por defecto */
+    margin-bottom: 70px;
+}
+
+.form-section2 {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: block; /* Ocultar por defecto */
+    margin-bottom: 70px;
+}
+
+/* Sección de los resultados */
+#resultado, #resultado2 {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    word-wrap: break-word; /* Evitar que el texto se corte */
+}
+
+/* Campos de texto */
+input, select {
+    font-size: 16px;   /* Tamaño de fuente consistente */
+    padding: 5px;     /* Altura inputs */
+    min-width: 150px;  /* Ancho mínimo */
+    max-width: 250px;  /* Ancho máximo */
+    width: 100%;       /* Asegura que ocupen todo el espacio disponible sin exceder el max-width */
+    box-sizing: border-box;  /* Asegura que padding y borde no alteren el tamaño del input/select */
+    margin: 5px 0;     /* Espaciado entre los campos */
+}
+
+/* Estilo para los botones */
+button {
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Estilos para la imagen */
+.panel-image {
+    width: 200px; /* Ajustar tamaño */
+    height: auto;
+    position: absolute;
+    top: 20px; /* Espacio desde la parte superior */
+    right: 20px; /* Espacio desde la derecha */
+    border-radius: 8px;
+}
+
+/* Pie de página */
+footer {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Sección para las baterías */
+.bateria-section {
+    margin-top: 20px;
+}
+
+/* Estilos de las entradas de las baterías */
+.bateria-inputs, .bateria-select, .bateria-valor {
+    margin-top: 20px;
+    display: inline-block;
+    width: 20%; /* Que tan juntos están */
+    margin-right: 20px;
+    margin-left: 25px;
+}
+
+.bateria-inputs input,
+.bateria-select select,
+.bateria-valor input {
+    width: 100%; /* Ocupa todo el espacio disponible */
+}
+
+/* Espaciado entre las secciones de batería */
+.bateria-section .form-section {
+    margin-top: 30px;
+}
+
+/* Estilos para el campo de agregar más baterías */
+.add-bateria-btn {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.add-bateria-btn:hover {
+    background-color: #45a049;
+}
+
+.remove-bateria-btn {
+    background-color: #4CAF50; /* Rojo */
+    color: white;
+    border: none;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    cursor: pointer;
+    position: relative;
+    top: 5px;
+    right: 20px;
+
+}
+
+.remove-bateria-btn:hover {
+    background-color: #ff4d4d; /* Rojo más fuerte */
+}
+
+/* Opciones de generación */
+.generacion-opcion {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Estilo para los campos de los meses */
+.meses-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    gap: 5px;
+}
+
+.meses-container label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Estilo de las opciones de consumo energético */
+.consumo-opcion {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.consumo-columnas {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    gap: 10px;
+}
+
+.consumo-columnas label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Estilo para las columnas en la opción Avanzada */
+.consumo-columnas {
+    display: flex;
+    flex-wrap: wrap; /* Permite que las columnas se ajusten si es necesario */
+    gap: 20px; /* Espaciado entre las columnas */
+}
+
+.consumo-columnas label,
+.consumo-columnas input {
+    width: calc(50% - 10px); /* Asegura que los campos se dividan en dos columnas */
+    box-sizing: border-box;  /* Asegura que el padding y los bordes no afecten el tamaño */
+}
+
+.consumo-columnas input {
+    margin-bottom: 10px;  /* Añadir un margen para separar los inputs */
+}
+
+/* Estilo de la tabla */
+.consumo-matriz {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.consumo-matriz th,
+.consumo-matriz td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.consumo-matriz th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.consumo-matriz input {
+    width: 100%;
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
