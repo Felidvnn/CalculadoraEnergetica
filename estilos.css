@@ -9,7 +9,7 @@ body {
 
 /* Estilos del encabezado */
 header {
-    background-color: #4CAF50; /* Verde fuerte para el encabezado */
+    background-color: #b0bf93; /* Verde fuerte para el encabezado */
     color: white;
     text-align: center;
     padding: 20px;
@@ -41,7 +41,7 @@ h1 {
 
 /* Botones del menú */
 .menu button {
-    background-color: #4CAF50;
+    background-color: #b0bf93;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -52,7 +52,7 @@ h1 {
 }
 
 .menu button:hover {
-    background-color: #45a049;
+    background-color: #b0bf93;
 }
 
 /* Sección de formulario */
@@ -99,14 +99,14 @@ button {
     font-size: 16px;
     cursor: pointer;
     border: none;
-    background-color: #4CAF50;
+    background-color: #b0bf93;
     color: white;
     border-radius: 5px;
     margin-top: 15px;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #b0bf93;
 }
 
 /* Estilos para la imagen */
@@ -121,7 +121,7 @@ button:hover {
 
 /* Pie de página */
 footer {
-    background-color: #4CAF50;
+    background-color: #b0bf93;
     color: white;
     text-align: center;
     padding: 10px;
@@ -160,7 +160,7 @@ footer {
     display: inline-block;
     margin-top: 20px;
     font-size: 16px;
-    background-color: #4CAF50;
+    background-color: #b0bf93;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -169,11 +169,11 @@ footer {
 }
 
 .add-bateria-btn:hover {
-    background-color: #45a049;
+    background-color: #b0bf93;
 }
 
 .remove-bateria-btn {
-    background-color: #4CAF50; /* Rojo */
+    background-color: #b0bf93; 
     color: white;
     border: none;
     border-radius: 100%;
