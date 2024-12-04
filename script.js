@@ -14,40 +14,6 @@ function mostrarCalculadora(tipo) {
     }
 }
 
-// Función para calcular el ROI
-function calcularROI(monto, paneles, baterias, consumo, modeloBateria, valorCompra, opcionBateria, valorSeleccionado) {
-    // Aquí puedes realizar los cálculos del ROI según los datos introducidos.
-    // Por ahora solo estamos devolviendo los valores de forma estructurada
-    return {
-        monto: monto,
-        paneles: paneles,
-        baterias: baterias,
-        consumo: consumo,
-        modeloBateria: modeloBateria,
-        valorCompra: valorCompra,
-        opcionBateria: opcionBateria,
-        valorSeleccionado: valorSeleccionado
-    };
-}
-
-// Función para mostrar el resultado del ROI
-function mostrarROI() {
-    const montoInversion = parseFloat(document.getElementById('monto').value);
-    const numPaneles = parseInt(document.getElementById('paneles').value);
-    const numBaterias = parseInt(document.getElementById('baterias').value);
-    const consumoMensual = parseFloat(document.getElementById('consumo').value);
-    const modeloBateria = document.getElementById('modeloBateria').value;
-    const valorCompra = parseFloat(document.getElementById('valorCompra').value);
-    const opcionBateria = document.getElementById('opcionBateria').value;
-    const valorSeleccionado = parseFloat(document.getElementById('valorSeleccionado').value);
-
-    // Aquí se llama a la función para calcular el ROI
-    const resultado = calcularROI(montoInversion, numPaneles, numBaterias, consumoMensual, modeloBateria, valorCompra, opcionBateria, valorSeleccionado);
-
-    // Mostrar el resultado
-    document.getElementById('resultado').innerHTML = 
-        `Datos del ROI:<br>Monto Inversión: $${resultado.monto}<br>Modelo Batería: ${resultado.modeloBateria}<br>Valor Compra: $${resultado.valorCompra}<br>Opción: ${resultado.opcionBateria}<br>Valor Seleccionado: ${resultado.valorSeleccionado}`;
-}
 
 // Función para calcular el ahorro
 function calcularAhorro(capacidad, consumo, comuna, generacion) {
@@ -166,5 +132,175 @@ function mostrarConsumo(valor) {
         document.getElementById('consumoPromedioMensual').style.display = 'block';
     } else if (valor === 'avanzado') {
         document.getElementById('consumoAvanzado').style.display = 'block';
+    }
+}
+
+
+// Base de datos de modelos de baterías con capacidad total al 100%
+const modelosBaterias = {
+    modelo1: { capacidadTotal: 1000 }, // Modelo 1
+    modelo2: { capacidadTotal: 800 },  // Modelo 2
+    modelo3: { capacidadTotal: 1200 }, // Modelo 3
+};
+
+// Función para calcular la capacidad restante de una batería
+function calcularCapacidadRestante(opcion, valor, modelo) {
+    const capacidadTotal = modelosBaterias[modelo].capacidadTotal;
+
+    if (opcion === 'capacidad_remanente_porcentaje') {
+        return (capacidadTotal * valor) / 100;
+    } else if (opcion === 'capacidad_remanente_kwh') {
+        return valor;
+    } else if (opcion === 'anos_uso') {
+        const perdida = 0.02 * valor; // 2% de pérdida por año
+        return capacidadTotal * (1 - perdida);
+    }
+    return 0; // Caso inválido
+}
+
+// Función para calcular el ROI
+function calcularROI(baterias, generacion, consumo, tarifa, horizonte) {
+    // 1. Calcular inversión total
+    const inversionBaterias = baterias.reduce((total, bateria) => total + bateria.valorCompra, 0);
+    const inversionTotal = inversionBaterias * 1.4; // Considera el 40% adicional
+
+    // 2. Calcular almacenamiento real mensual ajustado por capacidad de las baterías
+    const almacenamientoMensual = [];
+    if (generacion.tipo === 'promedio' && consumo.tipo === 'promedio') {
+        const excedente = Math.max(0, generacion.generacionMensual - consumo.consumoMensual);
+        const capacidadTotal = baterias.reduce((total, bateria) => total + bateria.capacidadRestante, 0);
+        almacenamientoMensual.push(Math.min(excedente, capacidadTotal));
+    } else if (generacion.tipo === 'avanzada' && consumo.tipo === 'avanzado') {
+        for (const mes in generacion.mensual) {
+            const excedente = Math.max(0, generacion.mensual[mes] - (consumo.mensual[mes]?.kWh || 0));
+            const capacidadTotal = baterias.reduce((total, bateria) => total + bateria.capacidadRestante, 0);
+            almacenamientoMensual.push(Math.min(excedente, capacidadTotal));
+        }
+    }
+
+    // 3. Calcular ahorro mensual y total
+    const ahorroMensual = almacenamientoMensual.map((almacenado) => almacenado * tarifa);
+    const ahorroTotal = ahorroMensual.reduce((total, ahorro) => total + ahorro, 0) * horizonte;
+
+    // 4. Calcular ROI
+    const gananciasNetas = ahorroTotal;
+    const roi = ((gananciasNetas - inversionTotal) / inversionTotal) * 100;
+
+    return {
+        inversionTotal,
+        gananciasNetas,
+        roi,
+        almacenamientoMensual,
+        ahorroMensual,
+        horizonte,
+    };
+}
+
+// Función para mostrar el ROI
+function mostrarROI() {
+    const baterias = [];
+    document.querySelectorAll('#bateriasContainer .bateria-item').forEach((bateriaElement, index) => {
+        const modeloElement = bateriaElement.querySelector('.modeloBateria');
+        const opcionBateriaElement = bateriaElement.querySelector('.opcionBateria');
+        const valorSeleccionadoElement = bateriaElement.querySelector('.valorSeleccionado');
+        const valorCompraElement = bateriaElement.querySelector('.valorCompra');
+
+        if (!modeloElement || !opcionBateriaElement || !valorSeleccionadoElement || !valorCompraElement) {
+            console.error(`Datos faltantes en la batería ${index + 1}`);
+            return;
+        }
+
+        const modelo = modeloElement.value;
+        const opcionBateria = opcionBateriaElement.value;
+        const valorSeleccionado = parseFloat(valorSeleccionadoElement.value);
+        const valorCompra = parseFloat(valorCompraElement.value);
+
+        if (!modelo || isNaN(valorSeleccionado) || isNaN(valorCompra)) {
+            console.error(`Datos inválidos en la batería ${index + 1}`);
+            return;
+        }
+
+        const capacidadRestante = calcularCapacidadRestante(opcionBateria, valorSeleccionado, modelo);
+
+        baterias.push({
+            modelo,
+            opcionBateria,
+            valorSeleccionado,
+            valorCompra,
+            capacidadRestante,
+        });
+    });
+
+    // Recopilar datos de generación
+    const tipoGeneracion = document.getElementById('tipoGeneracion').value;
+    const generacion =
+        tipoGeneracion === 'promedio'
+            ? { tipo: 'promedio', generacionMensual: parseFloat(document.getElementById('generacionMensual').value) }
+            : { tipo: 'avanzada', mensual: obtenerGeneracionMensualAvanzada() };
+
+    // Recopilar datos de consumo
+    const tipoConsumo = document.getElementById('tipoConsumo').value;
+    const consumo = obtenerConsumoMensual(tipoConsumo);
+
+    // Recopilar tarifa y horizonte
+    const tarifa = parseFloat(document.getElementById('tarifaPromedio').value || 0);
+    const horizonte = parseInt(document.getElementById('horizonteInversion').value, 10);
+
+    if (!tarifa || !horizonte) {
+        console.error("Faltan datos de tarifa o horizonte de inversión");
+        return;
+    }
+
+    // Calcular ROI
+    const resultado = calcularROI(baterias, generacion, consumo, tarifa, horizonte);
+
+    // Mostrar resultados
+    document.getElementById('resultado').innerHTML = `
+        <h3>Resultados del ROI:</h3>
+        <p>Inversión Total: $${resultado.inversionTotal.toFixed(2)}</p>
+        <p>Ganancias Netas: $${resultado.gananciasNetas.toFixed(2)}</p>
+        <p>ROI: ${resultado.roi.toFixed(2)}%</p>
+        <p>Horizonte de Inversión: ${resultado.horizonte} años</p>
+    `;
+}
+
+
+
+// Función para obtener la generación mensual avanzada
+function obtenerGeneracionMensualAvanzada() {
+    const mensual = {};
+    document.querySelectorAll('#generacionAvanzadaTable tbody tr').forEach((fila) => {
+        const mes = fila.cells[0].innerText;
+        const kWh = parseFloat(fila.querySelector('td input').value);
+        mensual[mes] = kWh;
+    });
+    return mensual;
+}
+
+// Función para obtener el consumo mensual
+function obtenerConsumoMensual(tipoConsumo) {
+    if (tipoConsumo === 'estimado') {
+        return {
+            tipo: 'estimado',
+            comuna: document.getElementById('comuna').value,
+            kWhMes: parseFloat(document.getElementById('kWhMes').value),
+            tarifa: parseFloat(document.getElementById('tarifa').value),
+            cantidadHogares: parseInt(document.getElementById('cantidadHogares').value, 10),
+        };
+    } else if (tipoConsumo === 'promedio') {
+        return {
+            tipo: 'promedio',
+            consumoMensual: parseFloat(document.getElementById('consumoPromedio').value),
+            tarifaPromedio: parseFloat(document.getElementById('tarifaPromedio').value),
+        };
+    } else if (tipoConsumo === 'avanzado') {
+        const mensual = {};
+        document.querySelectorAll('.consumo-matriz tbody tr').forEach((fila) => {
+            const mes = fila.cells[0].innerText;
+            const kWh = parseFloat(fila.cells[1].querySelector('input').value);
+            const tarifa = parseFloat(fila.cells[2].querySelector('input').value);
+            mensual[mes] = { kWh, tarifa };
+        });
+        return { tipo: 'avanzado', mensual };
     }
 }
