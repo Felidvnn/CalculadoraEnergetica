@@ -61,8 +61,8 @@ h1 {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: none; /* Ocultar por defecto */
-    margin-bottom: 70px;
+    display: block; /* Ocultar por defecto */
+    margin-bottom: 60px;
 }
 
 .form-section2 {
@@ -71,7 +71,7 @@ h1 {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: block; /* Ocultar por defecto */
-    margin-bottom: 70px;
+    margin-bottom: 60px;
 }
 
 /* Sección de los resultados */
