@@ -53,7 +53,7 @@ function agregarBateria() {
         </div>
 
         <!-- Botón para eliminar batería -->
-        <button type="button" class="remove-bateria-btn">Eliminar</button>
+        <button type="button" class="remove-bateria-btn">X</button>
     `;
     bateriasContainer.appendChild(bateriaItem);
 
