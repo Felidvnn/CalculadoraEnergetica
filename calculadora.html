@@ -3,20 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Energía</title>
+    <title>Calculadora ROI</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
     <header>
-        <h1>ESCOGER OPCIÓN A ESTIMAR</h1>
+        <h1>Calculadora de retorno de la inversión</h1>
     </header>
 
     <div class="container">
-        <!-- Menú de opciones -->
-        <div class="menu">
-            <button onclick="mostrarCalculadora('roi')">Estimar ROI</button>
-            <button onclick="mostrarCalculadora('rent')">Estimar Ahorro</button>
-        </div>
+
 
         <!-- Sección de cálculo de ROI -->
         <div id="formROI" class="form-section">
@@ -31,13 +27,10 @@
                             <div class="bateria-item">
                                 <label for="modeloBateria1">Modelo de Batería:</label>
                                 <select id="modeloBateria1" class="modeloBateria" required>
-                                    <option value="">Selecciona un modelo</option>
-                                    <option value="modelo1">Modelo 1</option>
-                                    <option value="modelo2">Modelo 2</option>
-                                    <option value="modelo3">Modelo 3</option>
+                                    <!-- Opciones serán añadidas dinámicamente -->
                                 </select>
                                 <div class="bateria-inputs">
-                                    <label for="valorCompra1">Valor de compra de la batería($):</label>
+                                    <label for="valorCompra1">Valor de compra de la batería($CLP):</label>
                                     <div class="input-container">
                                         <span class="currency">$</span>
                                         <input id="valorCompra1" type="number" class="valorCompra" step="1" required>
@@ -58,10 +51,17 @@
                                 </div>
                             </div>
                         </div>
+                    
                         <button type="button" id="addBateriaButton">Agregar batería</button>
                     </form>
                 </div>
-
+                
+                <div class="form-section2" id="costosExtraSection">
+                    <h2>Costos extra adicionales:</h2>
+                    <label for="costosExtra">Ingrese los costos adicionales (en $CLP):</label>
+                    <input type="number" id="costosExtra" placeholder="Ej: 2000" step="0.01">
+                    <small>Dejar vacío para usar el 40% adicional automático (Costos estimados de transporte, etc).</small>
+                </div>
 
 
                 <!-- Nueva sección: Datos de generación del sistema -->
@@ -275,33 +275,10 @@
             <div id="resultado"></div>
         </div>
 
-        
-        <!-- Sección para "calcular ahorro" aquí abajo -->
-        <div id="formRent" class="form-section">
-            <h2>Introduce los datos para estimar el ahorro:</h2>
-            <form id="rentForm">
-                <label for="capacidad">Capacidad máxima sistema de baterías (kWh):</label>
-                <input type="number" id="capacidad" step="1" required>
-
-                <label for="consumo2">Consumo eléctrico actual cliente (kWh):</label>
-                <input type="number" id="consumo2" required>
-
-                <label for="comuna">Comuna:</label>
-                <input type="number" id="comuna" required>
-
-                <label for="generacion">Generación renovable (kW):</label>
-                <input type="number" id="generacion" step="0.01" required>
-
-                <button type="button" onclick="mostrarAhorro()">Estimar Ahorro</button>
-            </form>
-
-            <div id="resultado2"></div>
-        </div>
-
     </div>
 
     <footer>
-        <p>&copy; 2024 Calculadora de ROI y Ahorro - Todos los derechos reservados.</p>
+        <p>&copy; 2024 Calculadora de ROI - Todos los derechos reservados.</p>
     </footer>
 
     <script src="script.js"></script>
